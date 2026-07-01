@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <!-- Set this meta to your CDN/base URL for assets, e.g. https://cdn.example.com/portfolio/ -->
-  <meta name="assets-base" content="">
+  <meta name="assets-base" content="https://portfolioartem.montegosto911.workers.dev/">
   <meta name="description" content="Портфоліо Артема — веб-розробник. HTML, CSS, JS. Проєкти та контакти." />
   <title>Портфоліо — Артем</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -69,7 +69,6 @@
                 <rect x="16" y="76" width="80" height="8" rx="2" fill="#fff" opacity="0.06"/>
                 <rect x="16" y="95" width="60" height="20" rx="3" fill="#56d6d6" opacity="0.9"/>
               </svg>
-              </a>
             </a>
           </div>
           <h3><img src="images/landing.svg" alt="Landing" class="type-icon"> Козацька Застава</h3>
@@ -166,8 +165,13 @@
       if(!base) return; if(!base.endsWith('/')) base += '/';
       document.querySelectorAll('img').forEach(function(img){
         var src = img.getAttribute('src') || '';
-        if(src.indexOf('images/') === 0) img.src = base + src.replace(/^images\//, '');
-        if(src.indexOf('./images/') === 0) img.src = base + src.replace(/^\.\/images\//, '');
+        // skip absolute URLs
+        if(/^https?:\/\//i.test(src) || src.indexOf('//') === 0) return;
+        // strip leading './' if present
+        src = src.replace(/^\.\//, '');
+        // build final URL preserving the images/ segment (works with GitHub Pages)
+        var sep = base.endsWith('/') ? '' : '/';
+        img.src = base + sep + src;
       });
     })();
   </script>

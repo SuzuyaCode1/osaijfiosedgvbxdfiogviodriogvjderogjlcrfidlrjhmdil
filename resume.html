@@ -59,8 +59,10 @@
         if(!base) return; if(!base.endsWith('/')) base += '/';
         document.querySelectorAll('img').forEach(function(img){
           var src = img.getAttribute('src') || '';
-          if(src.indexOf('images/') === 0) img.src = base + src.replace(/^images\//, '');
-          if(src.indexOf('./images/') === 0) img.src = base + src.replace(/^\.\/images\//, '');
+          if(/^https?:\/\//i.test(src) || src.indexOf('//') === 0) return;
+          src = src.replace(/^\.\//, '');
+          var sep = base.endsWith('/') ? '' : '/';
+          img.src = base + sep + src;
         });
       })();
     </script>
