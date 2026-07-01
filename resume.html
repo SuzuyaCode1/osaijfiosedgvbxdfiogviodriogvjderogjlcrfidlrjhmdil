@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <!-- Set this meta to your CDN/base URL for assets if you host images remotely -->
+  <meta name="assets-base" content="">
   <title>Резюме — Артем</title>
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -12,12 +14,8 @@
     <div class="resume">
       <div style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap">
         <div style="flex:0 0 110px">
-          <!-- avatar placeholder -->
-          <svg width="110" height="110" viewBox="0 0 24 24" fill="none" aria-hidden>
-            <rect width="24" height="24" rx="4" fill="rgba(255,255,255,0.03)"/>
-            <circle cx="12" cy="8.5" r="3.2" fill="#56d6d6"/>
-            <path d="M4 20c0-3.3 4-5 8-5s8 1.7 8 5" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1.2"/>
-          </svg>
+          <!-- avatar image: put your photo at images/avatar.jpg -->
+          <img src="photo.jpg" alt="Артем" class="avatar-img" width="110" height="110">
         </div>
         <div style="flex:1;min-width:200px">
           <h1>Артем — Веб-розробник</h1>
@@ -53,5 +51,18 @@
       <p><a href="index.html">Повернутися до портфоліо</a></p>
     </div>
   </div>
-</body>
-</html>
+    <!-- Helper to rewrite images/ paths to a CDN base when meta[name="assets-base"] is set -->
+    <script>
+      (function(){
+        var meta = document.querySelector('meta[name="assets-base"]');
+        var base = (meta && meta.content) ? meta.content.trim() : '';
+        if(!base) return; if(!base.endsWith('/')) base += '/';
+        document.querySelectorAll('img').forEach(function(img){
+          var src = img.getAttribute('src') || '';
+          if(src.indexOf('images/') === 0) img.src = base + src.replace(/^images\//, '');
+          if(src.indexOf('./images/') === 0) img.src = base + src.replace(/^\.\/images\//, '');
+        });
+      })();
+    </script>
+  </body>
+  </html>

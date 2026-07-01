@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <!-- Set this meta to your CDN/base URL for assets, e.g. https://cdn.example.com/portfolio/ -->
+  <meta name="assets-base" content="">
   <meta name="description" content="Портфоліо Артема — веб-розробник. HTML, CSS, JS. Проєкти та контакти." />
   <title>Портфоліо — Артем</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -35,12 +37,8 @@
       <h2>Про мене</h2>
       <div class="about-grid">
         <div class="avatar">
-          <!-- simple inline avatar -->
-          <svg width="120" height="120" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-            <rect width="24" height="24" rx="4" fill="rgba(255,255,255,0.03)"/>
-            <circle cx="12" cy="9" r="3.2" fill="#06b6d4"/>
-            <path d="M4 20c0-3.3 4-5 8-5s8 1.7 8 5" stroke="#0b1220" stroke-opacity="0.08" stroke-width="1.2"/>
-          </svg>
+          <!-- avatar image: put your photo at images/avatar.jpg -->
+          <img src="photo.jpg" alt="Артем" class="avatar-img" width="120" height="120">
         </div>
         <div class="about-text">
           <p>Веб-розробник, що спеціалізується на фронтенді. Працюю з адаптивними інтерфейсами, оптимізацією та чистим, семантичним кодом.</p>
@@ -59,22 +57,22 @@
         <article class="work-card">
           <div class="work-media">
             <a href="https://testwebsite-ch5.pages.dev/" target="_blank" rel="noreferrer">
-              <!-- Landing site mockup -->
-              <svg width="100%" height="84" viewBox="0 0 240 168" preserveAspectRatio="xMidYMid slice" aria-hidden>
+              <!-- screenshot image: put a preview at images/work-kazatska.jpg -->
+              <img src="images/work-kazatska.jpg" alt="Козацька Застава" style="width:100%;height:84px;object-fit:cover;border-radius:8px;display:block" loading="lazy" onerror="this.style.display='none';this.parentNode.querySelector('.work-placeholder').style.display='block'">
+              <!-- fallback placeholder shown if image is missing -->
+              <svg class="work-placeholder" width="100%" height="84" viewBox="0 0 240 168" preserveAspectRatio="xMidYMid slice" aria-hidden style="display:none;border-radius:8px">
                 <rect width="240" height="168" fill="#071428"/>
-                <!-- header -->
                 <rect width="240" height="24" fill="rgba(255,255,255,0.03)"/>
                 <rect x="8" y="6" width="80" height="12" rx="2" fill="#56d6d6" opacity="0.8"/>
-                <!-- hero content -->
                 <rect x="16" y="40" width="160" height="16" rx="2" fill="#fff" opacity="0.15"/>
                 <rect x="16" y="62" width="120" height="8" rx="2" fill="#fff" opacity="0.1"/>
                 <rect x="16" y="76" width="80" height="8" rx="2" fill="#fff" opacity="0.06"/>
-                <!-- CTA button -->
                 <rect x="16" y="95" width="60" height="20" rx="3" fill="#56d6d6" opacity="0.9"/>
               </svg>
+              </a>
             </a>
           </div>
-          <h3>Козацька Застава</h3>
+          <h3><img src="images/landing.svg" alt="Landing" class="type-icon"> Козацька Застава</h3>
           <div class="meta">Landing · від $150</div>
           <p>Простий лендінг, адаптивний, оптимізований для швидкого завантаження.</p>
             <div class="vote-group">
@@ -90,6 +88,7 @@
       <div class="pricing-grid">
         <article class="price-card">
           <div class="price-top">
+            <img src="images/landing.svg" alt="Landing" class="type-icon">
             <svg width="36" height="36" viewBox="0 0 24 24" fill="none" aria-hidden>
               <path d="M12 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M6 10h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -108,6 +107,7 @@
 
         <article class="price-card popular">
           <div class="price-top">
+            <img src="images/multipage.svg" alt="MultiPages" class="type-icon">
             <svg width="36" height="36" viewBox="0 0 24 24" fill="none" aria-hidden>
               <path d="M12 3v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M5 12h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -126,6 +126,7 @@
 
         <article class="price-card">
           <div class="price-top">
+            <img src="images/spa.svg" alt="SPA" class="type-icon">
             <svg width="36" height="36" viewBox="0 0 24 24" fill="none" aria-hidden>
               <path d="M3 7h18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M5 11h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -156,6 +157,20 @@
     <div class="container">© 2026 Артем — Веб-розробник</div>
   </footer>
 
+  <!-- Small helper: if you host images on a CDN, put its base URL into the meta[name="assets-base"] tag.
+       The script below rewrites image `src` attributes that start with `images/` to the CDN base. -->
+  <script>
+    (function(){
+      var meta = document.querySelector('meta[name="assets-base"]');
+      var base = (meta && meta.content) ? meta.content.trim() : '';
+      if(!base) return; if(!base.endsWith('/')) base += '/';
+      document.querySelectorAll('img').forEach(function(img){
+        var src = img.getAttribute('src') || '';
+        if(src.indexOf('images/') === 0) img.src = base + src.replace(/^images\//, '');
+        if(src.indexOf('./images/') === 0) img.src = base + src.replace(/^\.\/images\//, '');
+      });
+    })();
+  </script>
   <script src="main.js"></script>
 </body>
 </html>
