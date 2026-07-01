@@ -1,25 +1,17 @@
-# Портфоліо — Артем
+Положите сюда изображения, используемые в портфоліо или загрузите их на CDN/облако.
 
-Просте адаптивне портфоліо на HTML/CSS/JS, українською.
+- `avatar.jpg` — ваша фотография. Рекомендуемый размер: квадрат ~400×400 (можно больше — браузер уменьшит).
+- `work-kazatska.jpg` — скриншот проекта/превью для секции "Мої роботи". Рекомендуемый размер: ~1200×600.
 
-Щоб запустити локально — просто відкрийте `index.html` у браузері.
+Форматы: JPEG, WebP или PNG.
 
-Деплой на GitHub Pages (варіант 1 — звичайний репозиторій):
+Как вынести на облако и подключить:
+1. Загрузите файлы из папки `images/` в ваш CDN или облачное хранилище (S3, Cloudflare R2, GitHub Pages, Netlify, Vercel и т.д.).
+2. Получите базовый URL, где лежат файлы, например `https://cdn.example.com/portfolio/`.
+3. Откройте `index.html` и/или `resume.html` и в теге `<head>` заполните мета-поле:
 
-1. Створіть репозиторій на GitHub (наприклад `portfolio`).
-2. Виконайте локально:
+	<meta name="assets-base" content="https://cdn.example.com/portfolio/">
 
-```bash
-git init
-git add .
-git commit -m "Initial commit"
-git branch -M main
-git remote add origin https://github.com/<USERNAME>/<REPO>.git
-git push -u origin main
-```
+4. Страница автоматически заменит локальные пути `images/xxx` на `https://cdn.example.com/portfolio/xxx` при загрузке.
 
-3. У налаштуваннях репозиторію відкрийте розділ Pages та оберіть `main` branch -> root, збережіть. Через кілька хвилин сайт буде доступний за адресою `https://<USERNAME>.github.io/<REPO>/`.
-
-Альтернатива (репозиторій `USERNAME.github.io`): створіть репо з назвою `USERNAME.github.io`, запуште на `main` — сайт буде доступний за `https://USERNAME.github.io`.
-
-Замініть у README або в `index.html` посилання на GitHub-профіль, коли дасте свій юзернейм.
+Примечание: локальные ссылки останутся работать пока вы не укажете `assets-base`. Если вы хотите всегда использовать CDN, укажите полный URL прямо в `src` у тега `<img>`.
