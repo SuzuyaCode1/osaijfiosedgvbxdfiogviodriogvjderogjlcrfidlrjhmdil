@@ -6,7 +6,7 @@
   <!-- Set this meta to your CDN/base URL for assets if you host images remotely -->
   <meta name="assets-base" content="">
   <title>Резюме — Артем</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -15,7 +15,7 @@
       <div style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap">
         <div style="flex:0 0 110px">
           <!-- avatar image: put your photo at images/avatar.jpg -->
-          <img src="photo.jpg" alt="Артем" class="avatar-img" width="110" height="110">
+          <img src="/photo.jpg" alt="Артем" class="avatar-img" width="110" height="110">
         </div>
         <div style="flex:1;min-width:200px">
           <h1>Артем — Веб-розробник</h1>
@@ -48,7 +48,7 @@
       </ul>
 
       <p>Якщо хочете повний PDF-резюме або додаткові приклади — надішліть матеріали, або скажіть, що додати/прибрати.</p>
-      <p><a href="index.html">Повернутися до портфоліо</a></p>
+      <p><a href="/index.html">Повернутися до портфоліо</a></p>
     </div>
   </div>
     <!-- Helper to rewrite images/ paths to a CDN base when meta[name="assets-base"] is set -->
@@ -59,7 +59,7 @@
         if(!base) return; if(!base.endsWith('/')) base += '/';
         document.querySelectorAll('img').forEach(function(img){
           var src = img.getAttribute('src') || '';
-          if(/^https?:\/\//i.test(src) || src.indexOf('//') === 0) return;
+          if(/^https?:\/\//i.test(src) || src.indexOf('//') === 0 || src.indexOf('/') === 0) return;
           src = src.replace(/^\.\//, '');
           var sep = base.endsWith('/') ? '' : '/';
           img.src = base + sep + src;
